@@ -92,7 +92,7 @@ bool readFile(const string &filename, const string &type, map<Process, queue<int
 
     bool empty = true;
     getline(file, line);
-    while (!line.empty()) {
+    while (!file.eof()) {
         empty = false;
         string idStr;
         int id, memoryLocation;
@@ -109,7 +109,7 @@ bool readFile(const string &filename, const string &type, map<Process, queue<int
         queue<int> memoryLocations;
 
         getline(file, line);
-        while (!line.empty() && line[0] != 'P') {
+        while (!file.eof() && line[0] != 'P') {
             stringstream ssMem(line);
             ssMem >> memoryLocation;
             printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
@@ -118,7 +118,6 @@ bool readFile(const string &filename, const string &type, map<Process, queue<int
         }
 
         ready[p] = memoryLocations;
-        getline(file, line); 
     }
     if (empty) {
         cerr << "Input file is empty or improperly formatted." << endl;
