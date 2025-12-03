@@ -5,13 +5,20 @@
 //  Interface of the process class.
 //
 // Overloaded operators for priority queue: https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/cpp/libraries/stl-priority-queue-class-custom-type
+
 #ifndef PROCESS_H
 #define PROCESS_H
+
+#include <queue>
+
+using namespace std;
+
 
 class Process {
 public:
     Process(int ID, int Arrival_Time, int Total_CPU_Burst, int Priority);
     Process(int ID);
+    Process();
     int getId() const;
     int getArrivalTime() const;
     int getTotalCpuBurst() const;
@@ -27,13 +34,22 @@ public:
 
         return this->priority > other.priority;
     }
+    bool insertNextInstruction(int memoryLocation, int pageNumber);
+    int getNextPage();
+    bool executeNextInstruction();
+    void printDEBUG();
 
 private:
+    struct MemoryLocation {
+        int memoryLocation;
+        int pageNumber;
+    };
     int id;
     int arrivalTime;
     int totalCpuBurst;
     int remainingCPUBurst;
     int priority;
+    queue <MemoryLocation> instructionSequence;
 };
 
 #endif

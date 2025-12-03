@@ -18,8 +18,9 @@ int commandDecider (int argc, char **argv);
 
 // readfile
 // Reads the input file and builds the initial process queue
-bool readFile(const string &filename, const string &type, map<Process, queue<int> > &ready);
+bool readFile(const string &filename, const string &type, vector<Process> &ready);
 
+int getPageNumber(int memoryLocation);
 // compareByArrival
 // Comparator function to sort processes by arrival time
 

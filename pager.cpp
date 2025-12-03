@@ -1,4 +1,4 @@
-// FILE: scheduler.cpp
+// FILE: pager.cpp
 // Group 1: Chase Gartner, Ryan Geisler, Riley Ham
 // Operating Systems, Fall 2025
 //
@@ -20,7 +20,7 @@ using namespace std;
 int main(int argc, char **argv) {
     string command, response;
     int tokens;
-    map<Process, queue<int> > ready;
+    vector<Process> ready;
 
     if (argc > 1){
         commandDecider(argc, argv);
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
             // call Random
         }            
         else {
-            response = "Invalid scheduling type selected";
+            response = "Invalid Paging Algorithm selected";
         }
     } 
     else {
@@ -54,6 +54,11 @@ int main(int argc, char **argv) {
     }
 
     cout << response << endl;
+    for (int i = 0; i < ready.size(); ++i){
+        cout << "Process P_" << ready[i].getId() << " sequence of instructions" << endl;
+        ready[i].printDEBUG();
+        cout << endl;
+    }
     return 0;    
 }
 
@@ -81,10 +86,9 @@ int commandDecider(int argc, char **argv) {
     return 0;
 }
 
-bool readFile(const string &filename, const string &type, map<Process, queue<int> > &ready) {
+bool readFile(const string &filename, const string &type, vector <Process > &ready) {
     ifstream file(filename);
     string line;
-    queue<int> memoryLocations;
 
     if (!file) {
         return false;
@@ -106,21 +110,37 @@ bool readFile(const string &filename, const string &type, map<Process, queue<int
 
         id = stoi(idStr.substr(2)); 
         Process p(id);
-        queue<int> memoryLocations;
 
         getline(file, line);
         while (!file.eof() && line[0] != 'P') {
             stringstream ssMem(line);
+            int pageNumber;
             ssMem >> memoryLocation;
             printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
-            memoryLocations.push(memoryLocation);
+            pageNumber = getPageNumber(memoryLocation);
+            p.insertNextInstruction(memoryLocation, pageNumber);
             getline(file, line);
         }
+        
+        // Catches if there is no new line character for the last line of the file
+        if(!line.empty()) {
+            stringstream ssMem(line);
+            ssMem >> memoryLocation;
+            int pageNumber;   
+            printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
+            pageNumber = getPageNumber(memoryLocation);
+            p.insertNextInstruction(memoryLocation, pageNumber);
+        }
 
-        ready[p] = memoryLocations;
+        ready.push_back(p);
     }
     if (empty) {
         cerr << "Input file is empty or improperly formatted." << endl;
     }
     return true;
 }
+
+int getPageNumber(int memoryLocation){
+    return memoryLocation / framesize;
+}
+
