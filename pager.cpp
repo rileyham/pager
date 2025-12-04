@@ -37,7 +37,15 @@ int main(int argc, char **argv) {
                 //pageFaults = FIFO(ready[i], frames);
                 //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
             }
-        } 
+        }
+        else if (type == "MRU") {
+            response += "MRU: \n";
+            // call MRU
+            for (int i = 0; i < ready.size(); ++i){
+                //pageFaults = MRU(ready[i], frames);
+                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+            }
+        }
         else if (type == "LRU") {
             response += "LRU: \n";
             // call LRU
@@ -51,6 +59,14 @@ int main(int argc, char **argv) {
             // call MFU
             for (int i = 0; i < ready.size(); ++i){
                 //pageFaults = MFU(ready[i], frames);
+                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+            }
+        }
+        else if (type == "LFU") {
+            response += "LFU: \n";
+            // call LFU
+            for (int i = 0; i < ready.size(); ++i){
+                //pageFaults = LFU(ready[i], frames);
                 //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
             }
         }
