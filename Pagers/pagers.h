@@ -5,5 +5,7 @@
 #include "lru.h"
 #include "mfu.h"
 #include "random.h"
+#include "mru.h"
+#include "lfu.h"
 
 #endif
