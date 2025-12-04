@@ -29,21 +29,38 @@ int main(int argc, char **argv) {
     printf("Pager Type: %s\nFrames: %d\nPages: %d\nFrame Size: %d\nInput File: %s\n", type.c_str(), frames, pages, framesize, file.c_str());
     
     if (readFile(file, type, ready)){
+        int pageFaults = 0;
         if (type == "FIFO") {
             response += "FIFO: \n";
             // call FIFO
+            for (int i = 0; i < ready.size(); ++i){
+                //pageFaults = FIFO(ready[i], frames);
+                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+            }
         } 
         else if (type == "LRU") {
             response += "LRU: \n";
             // call LRU
+            for (int i = 0; i < ready.size(); ++i){
+                //pageFaults = LRU(ready[i], frames);
+                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+            }
         } 
         else if (type == "MFU") {
             response += "MFU: \n";
             // call MFU
+            for (int i = 0; i < ready.size(); ++i){
+                //pageFaults = MFU(ready[i], frames);
+                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+            }
         }
         else if (type == "Random") {
             response += "Random: \n";
             // call Random
+            for (int i = 0; i < ready.size(); ++i){
+                //pageFaults = Random(ready[i], frames);
+                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+            }
         }            
         else {
             response = "Invalid Paging Algorithm selected";
@@ -117,19 +134,16 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
             int pageNumber;
             ssMem >> memoryLocation;
             printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
-            pageNumber = getPageNumber(memoryLocation);
-            p.insertNextInstruction(memoryLocation, pageNumber);
+            p.insertNextInstruction(memoryLocation, memoryLocation / framesize);
             getline(file, line);
         }
         
         // Catches if there is no new line character for the last line of the file
         if(!line.empty()) {
             stringstream ssMem(line);
-            ssMem >> memoryLocation;
-            int pageNumber;   
+            ssMem >> memoryLocation;   
             printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
-            pageNumber = getPageNumber(memoryLocation);
-            p.insertNextInstruction(memoryLocation, pageNumber);
+            p.insertNextInstruction(memoryLocation, memoryLocation / framesize);
         }
 
         ready.push_back(p);
@@ -140,7 +154,5 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
     return true;
 }
 
-int getPageNumber(int memoryLocation){
-    return memoryLocation / framesize;
-}
+    
 

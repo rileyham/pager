@@ -10,6 +10,7 @@
 #include <map>
 #include <queue>
 #include "process.h"
+#include "Pagers/pagers.h"
 using namespace std;
 
 
@@ -20,7 +21,6 @@ int commandDecider (int argc, char **argv);
 // Reads the input file and builds the initial process queue
 bool readFile(const string &filename, const string &type, vector<Process> &ready);
 
-int getPageNumber(int memoryLocation);
 // compareByArrival
 // Comparator function to sort processes by arrival time
 
