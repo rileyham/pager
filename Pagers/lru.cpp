@@ -10,18 +10,18 @@
 #include <iostream>
 using namespace std;
 
-int LRU(queue<int> pageReferences, int frames) {
+int LRU(Process p, int frames) {
     queue<int> recentFrames;
-    int numberOfPages = pageReferences.size();
+    int totalPages = p.getTotalPages();
     int usedFrames = 0;
     int pageFaults = 0;
     int foundPage;
     bool pageExists = false;
     bool debug = true;
 
-    for (int i = 0; i < numberOfPages; ++i) {
-        int currentPage = pageReferences.front();
-        pageReferences.pop();
+    for (int i = 0; i  < totalPages; ++i) {
+        int currentPage = p.getNextPage();
+        p.executeNextInstruction();
         pageExists = false;
 
         // is the page already loaded?

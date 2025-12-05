@@ -50,16 +50,16 @@ int main(int argc, char **argv) {
             response += "LRU: \n";
             // call LRU
             for (int i = 0; i < ready.size(); ++i){
-                //pageFaults = LRU(ready[i], frames);
-                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+                pageFaults = LRU(ready[i], frames);
+                response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
             }
         } 
         else if (type == "MFU") {
             response += "MFU: \n";
             // call MFU
             for (int i = 0; i < ready.size(); ++i){
-                //pageFaults = MFU(ready[i], frames);
-                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+                pageFaults = MFU(ready[i], frames, pages);
+                response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
             }
         }
         else if (type == "LFU") {

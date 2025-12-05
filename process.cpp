@@ -72,3 +72,7 @@ void Process::printDEBUG(){
 bool Process::hasNextInstruction(){
     return !instructionSequence.empty();
 }
+
+int Process::getTotalPages(){
+    return instructionSequence.size();
+}

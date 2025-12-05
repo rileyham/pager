@@ -9,11 +9,12 @@
 
 #include <queue>
 #include <string>
+#include "../process.h"
 using namespace std;
 
 // Takes in a series of memory locations the number of frames and simulates MFU paging
 // Ties are broken by choosing the least recently used page
 // returns the number of page faults that occurred
-int MFU(queue<int> pageReferences, int pages, int frames);
+int MFU(Process p, int pages, int frames);
 
 #endif

@@ -8,10 +8,11 @@
 
 #include <queue>
 #include <string>
+#include "../process.h"
 using namespace std;
 
 // Takes in a series of memory locations and the number of frames simulates LRU paging
 // returns the number of page faults that occurred
-int LRU(queue<int> pageReferences, int frames);
+int LRU(Process p, int frames);
 
 #endif

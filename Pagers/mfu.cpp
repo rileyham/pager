@@ -10,9 +10,9 @@
 #include <iostream>
 using namespace std;
 
-int MFU(queue<int> pageReferences, int pages, int frameCount) {
+int MFU(Process p, int pages, int frameCount) {
     queue<int> recentFrames;
-    int numberOfPages = pageReferences.size();
+    int numberOfPages = p.getTotalPages();
     int usedFrames = 0;
     int pageFaults = 0;
     int currentFrame;
@@ -25,8 +25,8 @@ int MFU(queue<int> pageReferences, int pages, int frameCount) {
     }
 
     for (int i = 0; i < numberOfPages; ++i) {
-        int currentPage = pageReferences.front();
-        pageReferences.pop();
+        int currentPage = p.getNextPage();
+        p.executeNextInstruction();
         pageExists = false;
 
         // is the page already loaded?
