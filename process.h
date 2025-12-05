@@ -38,6 +38,7 @@ public:
     int getNextPage();
     bool executeNextInstruction();
     void printDEBUG();
+    bool hasNextInstruction(); 
 
 private:
     struct MemoryLocation {

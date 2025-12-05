@@ -68,3 +68,7 @@ void Process::printDEBUG(){
         instructionSequence.pop();
     }
 }
+
+bool Process::hasNextInstruction(){
+    return !instructionSequence.empty();
+}
