@@ -74,8 +74,8 @@ int main(int argc, char **argv) {
             response += "Random: \n";
             // call Random
             for (int i = 0; i < ready.size(); ++i){
-                //pageFaults = Random(ready[i], frames);
-                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+                pageFaults = Random(ready[i], frames);
+                response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
             }
         }            
         else {

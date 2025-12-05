@@ -1,5 +1,5 @@
-pager: pager.o process.o fifo.o lru.o mfu.o
-	g++ pager.o process.o fifo.o lru.o mfu.o -o pager
+pager: pager.o process.o fifo.o lru.o mfu.o random.o 
+	g++ pager.o process.o fifo.o lru.o mfu.o random.o -o pager
 
 pager.o: pager.h pager.cpp
 	g++ -c pager.cpp -o pager.o
@@ -15,3 +15,6 @@ lru.o : Pagers/lru.h Pagers/lru.cpp
 
 mfu.o : Pagers/mfu.h Pagers/mfu.cpp
 	g++ -c Pagers/mfu.cpp -o mfu.o
+
+random.o : Pagers/random.h Pagers/random.cpp
+	g++ -c Pagers/random.cpp -o random.o
