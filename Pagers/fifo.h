@@ -4,9 +4,9 @@
 //
 
 #ifndef FIFO_H
-#define FIFO_F
+#define FIFO_H
 
-#include "process.h"
+#include "../process.h"
 
 // Simulate FIFO page replacement for a single process
 // Returns the number of page faults for that process

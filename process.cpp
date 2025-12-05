@@ -45,7 +45,7 @@ int Process::getNextPage() {
 }
 
 bool Process::executeNextInstruction(){
-    if(getNextPage()){
+    if(!instructionSequence.empty()){
         instructionSequence.pop();
         return true;
     }

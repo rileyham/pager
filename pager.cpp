@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
             response += "FIFO: \n";
             // call FIFO
             for (int i = 0; i < ready.size(); ++i){
-                //pageFaults = FIFO(ready[i], frames);
-                //response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
+                pageFaults = FIFO(ready[i], frames);
+                response += "Process P_" + to_string(ready[i].getId()) + " had " + to_string(pageFaults) + " page faults.\n";  
             }
         }
         else if (type == "MRU") {
@@ -145,7 +145,7 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
         Process p(id);
 
         getline(file, line);
-        while (!file.eof() && line[0] != 'P') {
+        while (!file.eof() && !line.empty() && line[0] != 'P') {
             stringstream ssMem(line);
             int pageNumber;
             ssMem >> memoryLocation;
@@ -155,7 +155,7 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
         }
         
         // Catches if there is no new line character for the last line of the file
-        if(!line.empty()) {
+        if(file.eof() && !line.empty() && line[0] != 'P' ) {
             stringstream ssMem(line);
             ssMem >> memoryLocation;   
             printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
