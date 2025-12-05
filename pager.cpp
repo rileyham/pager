@@ -88,9 +88,9 @@ int main(int argc, char **argv) {
 
     cout << response << endl;
     for (int i = 0; i < ready.size(); ++i){
-        cout << "Process P_" << ready[i].getId() << " sequence of instructions" << endl;
-        ready[i].printDEBUG();
-        cout << endl;
+        //cout << "Process P_" << ready[i].getId() << " sequence of instructions" << endl;
+        //ready[i].printDEBUG();
+        //cout << endl;
     }
     return 0;    
 }
@@ -130,6 +130,10 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
     bool empty = true;
     getline(file, line);
     while (!file.eof()) {
+        if(line.empty()){
+            getline(file, line);
+            continue;
+        }
         empty = false;
         string idStr;
         int id, memoryLocation;
@@ -145,11 +149,15 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
         Process p(id);
 
         getline(file, line);
-        while (!file.eof() && !line.empty() && line[0] != 'P') {
+        while (!file.eof() && line[0] != 'P') {
+            if(line.empty()){
+                getline(file, line);
+                continue;
+            }
             stringstream ssMem(line);
             int pageNumber;
             ssMem >> memoryLocation;
-            printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
+            //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             p.insertNextInstruction(memoryLocation, memoryLocation / framesize);
             getline(file, line);
         }
@@ -158,7 +166,7 @@ bool readFile(const string &filename, const string &type, vector <Process > &rea
         if(file.eof() && !line.empty() && line[0] != 'P' ) {
             stringstream ssMem(line);
             ssMem >> memoryLocation;   
-            printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
+            //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             p.insertNextInstruction(memoryLocation, memoryLocation / framesize);
         }
 
