@@ -10,7 +10,7 @@
 #include <iostream>
 using namespace std;
 
-void RoundRobin(std::queue<Process> processes, int timeQuantum, bool isVerbose, string& response) {
+void RoundRobin(std::queue<Process> processes, int timeQuantum, bool isVerbose,  vector<ProcessRunTime> &processSequence, string& response) {
     queue<Process> readyQueue;
     int elapsedTime = 0;
     int numProcesses = processes.size();
@@ -43,6 +43,16 @@ void RoundRobin(std::queue<Process> processes, int timeQuantum, bool isVerbose, 
             readyQueue.pop();
             if (currentProcess.getArrivalTime() <= elapsedTime) {
                 if(currentProcess.getRemainingCpuBurst() <= timeQuantum) {
+                    if (!processSequence.empty() && processSequence.back().processID == currentProcess.getId()) {
+                        processSequence.back().runTime += currentProcess.getRemainingCpuBurst();
+                    } 
+                    else {
+                        ProcessRunTime  processRunTime;
+                        processRunTime.processID = currentProcess.getId();
+                        processRunTime.runTime = currentProcess.getRemainingCpuBurst();
+                        processSequence.push_back(ProcessRunTime(processRunTime));
+                    }
+
                     // Process finishes execution this quantum
                     elapsedTime += currentProcess.getRemainingCpuBurst();
                     int waitTime = elapsedTime - currentProcess.getArrivalTime() - currentProcess.getTotalCpuBurst();
@@ -59,6 +69,16 @@ void RoundRobin(std::queue<Process> processes, int timeQuantum, bool isVerbose, 
 
                 } else {
                     // Process does not finish, requeue it
+                    if(!processSequence.empty() && processSequence.back().processID == currentProcess.getId()) {
+                        processSequence.back().runTime += timeQuantum;
+                    } 
+                    else {
+                        ProcessRunTime  processRunTime;
+                        processRunTime.processID = currentProcess.getId();
+                        processRunTime.runTime = timeQuantum;
+                        processSequence.push_back(ProcessRunTime(processRunTime));
+                    }
+
                     elapsedTime += timeQuantum;
                     if (isVerbose) response += "P" + to_string(currentProcess.getId()) + " ran for " + to_string(timeQuantum) + " units." + "\n";
                     currentProcess.decrementRemainingCpuBurst(timeQuantum);

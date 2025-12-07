@@ -16,11 +16,11 @@ using namespace std;
 // Takes in a queue of processes and simulates non-preemptive SJF scheduling
 // Based on non-preemptive priority scheduling where priority is total CPU burst
 // result is placed in response string
-void SJFNonPreemptive(std::queue<Process> processes, bool isVerbose, string& response);
+void SJFNonPreemptive(std::queue<Process> processes, bool isVerbose, vector<ProcessRunTime> &processSequence, string& response);
 
 // Takes in a queue of processes and simulates preemptive SJF scheduling
 // Based on preemptive priority scheduling where priority is total CPU burst
 // result is placed in response string
-void SJFPreemptive(std::queue<Process> processes, bool isVerbose, string& response);
+void SJFPreemptive(std::queue<Process> processes, bool isVerbose, vector<ProcessRunTime> &processSequence, string& response);
 
 #endif

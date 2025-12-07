@@ -11,7 +11,7 @@
 #include <iostream>
 using namespace std;
 
-void SJFNonPreemptive(queue<Process> processes, bool isVerbose, string& response) {
+void SJFNonPreemptive(queue<Process> processes, bool isVerbose, vector<ProcessRunTime> &processSequence, string& response) {
 
     // create a new queue that uses totalCpuBurst as priority, allowing the same logic as priority scheduling
     queue<Process> burstPriorityQueue;
@@ -22,10 +22,10 @@ void SJFNonPreemptive(queue<Process> processes, bool isVerbose, string& response
         burstPriorityQueue.push(current);
         processes.pop();
     }
-    PriorityNonPreemptive(burstPriorityQueue, isVerbose, response);
+    PriorityNonPreemptive(burstPriorityQueue, isVerbose, processSequence, response);
 }
 
-void SJFPreemptive(queue<Process> processes, bool isVerbose, string& response) {
+void SJFPreemptive(queue<Process> processes, bool isVerbose, vector<ProcessRunTime> &processSequence, string& response) {
 
     // create a new queue that uses totalCpuBurst as priority, allowing the same logic as priority scheduling
     queue<Process> burstPriorityQueue;
@@ -36,5 +36,5 @@ void SJFPreemptive(queue<Process> processes, bool isVerbose, string& response) {
         burstPriorityQueue.push(current);
         processes.pop();
     }
-    PriorityPreemptive(burstPriorityQueue, isVerbose, response);
+    PriorityPreemptive(burstPriorityQueue, isVerbose, processSequence, response);
 }

@@ -7,9 +7,10 @@
 #define RANDOM_H
 
 #include "../process.h"
+#include "../frameTable.h"
 
 // Random page replacement for a single process
 // Returns number of page faults
-int Random(Process p, int frames);
+int Random(Process &p, int frames, FrameTable &ft, int instructionsToExecute);
 
 #endif

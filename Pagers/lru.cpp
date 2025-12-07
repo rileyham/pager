@@ -10,82 +10,44 @@
 #include <iostream>
 using namespace std;
 
-int LRU(Process p, int frames) {
-    queue<int> recentFrames;
-    int totalPages = p.getTotalPages();
-    int usedFrames = 0;
+int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
     int pageFaults = 0;
-    int foundPage;
-    bool pageExists = false;
-    bool debug = true;
+    bool debug = false;
 
-    for (int i = 0; i  < totalPages; ++i) {
+    for (int i = 0; i < instructionsToExecute; ++i) {
         int currentPage = p.getNextPage();
         p.executeNextInstruction();
-        pageExists = false;
 
-        // is the page already loaded?
-        for (int j = 0; j < usedFrames; ++j) {
-            if (recentFrames.front() == currentPage) {
-                recentFrames.pop();
-                foundPage = currentPage;
-                pageExists = true;
-            }
-            else {
-                recentFrames.push(recentFrames.front());
-                recentFrames.pop();
-            }
-        }
-        if (pageExists) {
-            recentFrames.push(foundPage);
+        int frameIndex = -1;
+
+        if (ft.contains(p.getId(), currentPage, frameIndex)) {
+            // Page is already in a frame, just increment usage
+            ft.incrementUse(frameIndex);
+            ft.setNewestEntryIndex(frameIndex);
+
             if (debug) {
-                cout << "Page " << currentPage << " Found. Current Frames:";
-                queue<int> tempFrames = recentFrames;
-                while (!tempFrames.empty()) {
-                    cout << " " << tempFrames.front();
-                    tempFrames.pop();
-                }
-                cout << endl;
+                cout << "Page: " << currentPage << ", PID:" << p.getId() << " found in frame " << frameIndex << endl;
             }
             continue;
         }
 
-        // are there available frames?
-        if (usedFrames < frames) {
+        // Page not found → page fault
+        pageFaults++;
 
-            recentFrames.push(currentPage);
-            usedFrames++;
-            pageFaults++;
-
+        if (ft.openSlot(frameIndex)) {
+            // There is an empty frame
+            ft.insertEntry(p.getId(), currentPage, frameIndex);
             if (debug) {
-                cout << "Page " << currentPage << " loaded. Current Frames:";
-                queue<int> tempFrames = recentFrames;
-                while (!tempFrames.empty()) {
-                    cout << " " << tempFrames.front();
-                    tempFrames.pop();
-                }
-                cout << endl;
+                cout  << "Page: " << currentPage << ", PID:" << p.getId() << " loaded into empty frame " << frameIndex << endl;
             }
-        } 
-
-        // frames are full, find a victim
-        else {
-            int victimPage = recentFrames.front();
-            recentFrames.pop();
-            recentFrames.push(currentPage);
-            pageFaults++;
-
+        } else {
+            // No empty frame → replace least recently used
+            int victimIndex = ft.getOldestEntryIndex();
             if (debug) {
-                cout << "Page " << victimPage << " killed for " << currentPage << " Current Frames:";
-                queue<int> tempFrames = recentFrames;
-                while (!tempFrames.empty()) {
-                    cout << " " << tempFrames.front();
-                    tempFrames.pop();
-                }
-                cout << endl;
+                cout << "Page: " << currentPage << ", PID:" << p.getId() << " replacing page in frame " << victimIndex << endl;
             }
+            ft.insertEntry(p.getId(), currentPage, victimIndex);
         }
-  
     }
 
     return pageFaults;

@@ -11,7 +11,7 @@
 #include <string>
 using namespace std;
 
-void FCFS(queue<Process> ready, bool isVerbose, string &response ) {
+void FCFS(queue<Process> ready, bool isVerbose, vector<ProcessRunTime> &processSequence, string &response ) {
     int time = 0;
     long total_wait = 0;
     int count = 0; // number of processes seen
@@ -22,6 +22,11 @@ void FCFS(queue<Process> ready, bool isVerbose, string &response ) {
 
         const int arrival = p.getArrivalTime();
         const int burst   = p.getTotalCpuBurst();
+        
+        ProcessRunTime  processRunTime;
+        processRunTime.processID = p.getId();
+        processRunTime.runTime = burst;
+        processSequence.push_back(ProcessRunTime(processRunTime));
 
         // if the CPU is idle until this process arrives, advance the time
         if (time < arrival) {

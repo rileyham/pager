@@ -3,42 +3,33 @@
 // Operating Systems, Fall 2025
 //
 #include "fifo.h"
+#include <iostream>
 #include <vector>
 using namespace std;
 
-int FIFO(Process p, int frames) {
+int FIFO(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
     int pageFaults = 0;
     if (frames <= 0) return 0;
 
-    vector<int> frameTable;
     int nextToReplace = 0;
 
-    while (p.hasNextInstruction()) {
+    for (int instr = 0; instr < instructionsToExecute; instr++) {
         int page = p.getNextPage();
         bool hit = false;
-        for (int i = 0; i < frameTable.size(); i++) {
-            if (frameTable[i] == page) {
-                hit = true;
-                break;
-    }
-}
-        if (!hit) {
+        int frameIndex = -1;
+        if (ft.getFrameCount() != 0 && ft.contains(p.getId(), page, frameIndex)) {
+            hit = true;
+        } 
+        else {
             pageFaults++;
-
-            if ((int)frameTable.size() < frames) {
-                frameTable.push_back(page);
+            if (ft.openSlot(frameIndex)) {
+                ft.insertEntry(p.getId(), page, frameIndex);
             } else {
-                //replace the oldest page
-                frameTable[nextToReplace] = page;
-                nextToReplace++;
-                if (nextToReplace == frames) {
-                    nextToReplace = 0;  // wrap back to frame 0
-                }
-
+                int victimIndex = ft.getOldestEntryIndex();
+                ft.insertEntry(p.getId(), page, victimIndex);
             }
         }
-        p.executeNextInstruction();
+        p.executeNextInstruction();  
     }
-
     return pageFaults;
 }

@@ -15,6 +15,6 @@ using namespace std;
 
 // Takes in a queue of processes and simulates FCFS scheduling
 // result is placed in response string
-void FCFS(queue<Process> ready, bool isVerbose, string &response);
+void FCFS(queue<Process> ready, bool isVerbose, vector<ProcessRunTime> &processSequence, string &response);
 
 #endif// FCFS_H

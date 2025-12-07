@@ -10,7 +10,7 @@
 #include <iostream>
 using namespace std;
 
-void PriorityNonPreemptive(std::queue<Process> processes, bool isVerbose, string& response) {
+void PriorityNonPreemptive(std::queue<Process> processes, bool isVerbose, vector<ProcessRunTime> &processSequence, string& response) {
     priority_queue<Process> readyQueue;
     int elapsedTime = 0;
     int numProcesses = processes.size();
@@ -42,6 +42,11 @@ void PriorityNonPreemptive(std::queue<Process> processes, bool isVerbose, string
             readyQueue.pop();
             if (currentProcess.getArrivalTime() <= elapsedTime) {
                 // Process finishes execution
+                ProcessRunTime  processRunTime;
+                processRunTime.processID = currentProcess.getId();
+                processRunTime.runTime = currentProcess.getRemainingCpuBurst();
+                processSequence.push_back(ProcessRunTime(processRunTime));
+
                 elapsedTime += currentProcess.getRemainingCpuBurst();
                 int waitTime = elapsedTime - currentProcess.getArrivalTime() - currentProcess.getTotalCpuBurst();
 
@@ -63,7 +68,7 @@ void PriorityNonPreemptive(std::queue<Process> processes, bool isVerbose, string
     response += "The average wait time is " + to_string(totalWaitTime / numProcesses);
 }
 
-void PriorityPreemptive(queue<Process> processes, bool isVerbose, string& response) {
+void PriorityPreemptive(queue<Process> processes, bool isVerbose, vector<ProcessRunTime> &processSequence, string& response) {
     priority_queue<Process> readyQueue;
     int elapsedTime = 0;
     int numProcesses = processes.size();
@@ -97,6 +102,15 @@ void PriorityPreemptive(queue<Process> processes, bool isVerbose, string& respon
                 // Process runs for 1 time unit
                 elapsedTime += 1;
                 currentProcess.decrementRemainingCpuBurst(1);
+                
+                if (!processSequence.empty() && processSequence.back().processID == currentProcess.getId()) {
+                    processSequence.back().runTime += 1;
+                } else {
+                    ProcessRunTime  processRunTime;
+                    processRunTime.processID = currentProcess.getId();
+                    processRunTime.runTime = 1;
+                    processSequence.push_back(ProcessRunTime(processRunTime));
+                }
 
                 // Check if process is finished
                 if (currentProcess.getRemainingCpuBurst() == 0) {

@@ -40,18 +40,32 @@ public:
     void printDEBUG();
     bool hasNextInstruction(); 
     int getTotalPages();
+    void setTotalInstructions();
+    int getTotalInstructions();
 
 private:
     struct MemoryLocation {
         int memoryLocation;
         int pageNumber;
     };
+    struct PageTableEntry {
+        int pageNumber;
+        bool validBit;
+        int frameNumber;
+    };
+
     int id;
     int arrivalTime;
     int totalCpuBurst;
     int remainingCPUBurst;
     int priority;
+    int totalInstructions;
     queue <MemoryLocation> instructionSequence;
+};
+
+struct ProcessRunTime {
+    int processID;
+    int runTime;
 };
 
 #endif

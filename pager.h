@@ -6,27 +6,47 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
 #include <map>
 #include <queue>
 #include "process.h"
-#include "Pagers/pagers.h"
+#include "Pagers/PAGERS.h"
+#include "Schedulers/SCHEDULERS.h"
 using namespace std;
 
 
 // Takes in different commands and sets global variables to it
 int commandDecider (int argc, char **argv);
 
+// readSchedfile
+// Reads the input file and builds the initial process queue
+bool readSchedFile(const string &filename, const string &type, const bool preemptive, queue<Process> &ready);
+
 // readfile
 // Reads the input file and builds the initial process queue
-bool readFile(const string &filename, const string &type, vector<Process> &ready);
+bool readPageFile(const string &filename, const string &type, vector<Process> &ready);
 
 // compareByArrival
 // Comparator function to sort processes by arrival time
+bool compareByArrival(const Process& a, const Process& b);
 
 //initialize Globals
-string type = "FIFO";
+
+// PAGER GLOBALS
+string pageType = "FIFO";
 int frames = 3;
 int pages = 8;
 int framesize = 512;
-string file = "pager.in";
+string pageFile = "pager.in";
+
+// SCHEDULER GLOBALS
+string schedType = "FCFS";
+bool preemptive = false;
+int quanta = 10;
+string schedFile = "sched.in";
+bool verbose = false;
+bool sched = false;

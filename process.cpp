@@ -17,6 +17,9 @@ Process::Process(int ID, int Arrival_Time, int Total_CPU_Burst, int Priority)
 Process::Process(int ID)
     : id(ID), arrivalTime(0), totalCpuBurst(0), priority(0), remainingCPUBurst(0) {}
 
+Process::Process()
+    : id(0), arrivalTime(0), totalCpuBurst(0), priority(0), remainingCPUBurst(0) {}
+
 int Process::getId() const {
     return id;
 }
@@ -76,4 +79,12 @@ bool Process::hasNextInstruction(){
 
 int Process::getTotalPages(){
     return instructionSequence.size();
+}
+
+void Process::setTotalInstructions(){
+    totalInstructions = instructionSequence.size();
+}
+
+int Process::getTotalInstructions(){
+    return totalInstructions;
 }
