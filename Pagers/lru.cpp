@@ -30,7 +30,7 @@ int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
             continue;
         }
 
-        // Page not found → page fault
+        // Page not found - page fault
         pageFaults++;
 
         if (ft.openSlot(frameIndex)) {
@@ -40,7 +40,7 @@ int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
                 cout  << "Page: " << currentPage << ", PID:" << p.getId() << " loaded into empty frame " << frameIndex << endl;
             }
         } else {
-            // No empty frame → replace least recently used
+            // No empty frame - replace least recently used
             int victimIndex = ft.getOldestEntryIndex();
             if (debug) {
                 cout << "Page: " << currentPage << ", PID:" << p.getId() << " replacing page in frame " << victimIndex << endl;

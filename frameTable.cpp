@@ -46,6 +46,15 @@ bool FrameTable::insertEntry(int processId, int pageNumber, int frameIndex){
     }
     fifo.push(frameIndex);
 
+    for (int i = 0; i < frameCount; ++i){
+        cout
+             << ", Page " << frameTable[i].pageNumber 
+             << ", Uses " << frameTable[i].uses 
+             << ", Last Used " << frameTable[i].lastUsed 
+             << " / ";
+    }
+    cout << endl;
+
     return true;
 }
 
@@ -55,19 +64,22 @@ int FrameTable::getFrameCount() const{
 }
 
 int FrameTable::getOldestEntryIndex(){
-    int oldestIndex = 1000000;
+    int oldestIndex = 0;
+    int mostRecentInstruction = 10000000;
     bool foundFreeSlot = false;
     for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].free && frameTable[i].lastUsed < oldestIndex){
-            oldestIndex = frameTable[i].lastUsed;
+        if(frameTable[i].free && frameTable[i].lastUsed < mostRecentInstruction){
+            oldestIndex = i;
+            mostRecentInstruction = frameTable[i].lastUsed;
             foundFreeSlot = true;
         }
     }
     if(foundFreeSlot) return oldestIndex;
 
     for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].lastUsed < oldestIndex){
-            oldestIndex = frameTable[i].lastUsed;
+        if(frameTable[i].lastUsed < mostRecentInstruction){
+            oldestIndex = i;
+            mostRecentInstruction = frameTable[i].lastUsed;
         }
     }
 
@@ -75,25 +87,26 @@ int FrameTable::getOldestEntryIndex(){
 }
 
 int FrameTable::getNewestEntryIndex(){
-    int newestIndex = 1000000;
+    int newestIndex = 0;
+    int mostRecentInstruction = -1;
     bool foundFreeSlot = false;
     for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].free && frameTable[i].lastUsed < newestIndex){
-            newestIndex = frameTable[i].lastUsed;
+        if(frameTable[i].free && frameTable[i].lastUsed > mostRecentInstruction){
+            newestIndex = i;
+            mostRecentInstruction = frameTable[i].lastUsed;
             foundFreeSlot = true;
         }
     }
     if(foundFreeSlot) return newestIndex;
 
     for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].lastUsed < newestIndex){
-            newestIndex = frameTable[i].lastUsed;
+        if(frameTable[i].lastUsed > mostRecentInstruction){
+            newestIndex = i;
+            mostRecentInstruction = frameTable[i].lastUsed;
         }
     }
 
-
     return newestIndex;
-    
 }
 
 int FrameTable::getMostUsedFrameIndex() const{
