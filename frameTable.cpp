@@ -47,15 +47,6 @@ bool FrameTable::insertEntry(int processId, int pageNumber, int frameIndex){
     }
     fifo.push(frameIndex);
 
-    for (int i = 0; i < frameCount; ++i){
-        cout
-             << ", Page " << frameTable[i].pageNumber 
-             << ", Uses " << frameTable[i].uses 
-             << ", Last Used " << frameTable[i].lastUsed 
-             << " / ";
-    }
-    cout << endl;
-
     return true;
 }
 
