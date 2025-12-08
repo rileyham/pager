@@ -291,11 +291,7 @@ int main(int argc, char **argv) {
     }
 
     cout << pageResponse << endl;
-    for (int i = 0; i < ready.size(); ++i){
-        //cout << "Process P_" << ready[i].getId() << " sequence of instructions" << endl;
-        //ready[i].printDEBUG();
-        //cout << endl;
-    }
+
     return 0;    
 }
 
@@ -403,7 +399,6 @@ bool readPageFile(const string &filename, const string &type, vector <Process > 
                 cerr << "Invalid memory location: " << memoryLocation << " for process P_" << id << endl;
                 exit(1);
             }
-            //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             if (sched){
                 ready[processIndex].insertNextInstruction(memoryLocation, memoryLocation / framesize);
             }
@@ -421,7 +416,6 @@ bool readPageFile(const string &filename, const string &type, vector <Process > 
                 cerr << "Invalid memory location: " << memoryLocation << " for process P_" << id << endl;
                 exit(1);
             }   
-            //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             if (sched){
                 ready[processIndex].insertNextInstruction(memoryLocation, memoryLocation / framesize);
             }
