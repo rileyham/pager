@@ -9,6 +9,7 @@
 using namespace std;
 
 int Random(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
+    srand(time(0));
     int pageFaults = 0;
 
     if (frames <= 0) return 0;
