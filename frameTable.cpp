@@ -4,12 +4,11 @@
 #include <iostream>
 
 FrameTable::FrameTable(int totalFrames){
-    frameCount = 0;          // frames currently used
+    frameCount = 0;
     totalInstructions = 0;
-    frameTable.resize(totalFrames); // total number of frames
+    frameTable.resize(totalFrames);
 
 }
-
 
 FrameTable::~FrameTable(){
 }
@@ -31,8 +30,6 @@ bool FrameTable::openSlot(int &frameIndex){
     }
     return false;
 }
-
-
 
 bool FrameTable::insertEntry(int processId, int pageNumber, int frameIndex){
     totalInstructions++;
@@ -131,8 +128,6 @@ int FrameTable::getMostUsedFrameIndex() const {
 }
 
 
-
-
 int FrameTable::getLeastUsedFrameIndex() const {
     int victim = -1;
     int minUses = 10000000;
@@ -161,10 +156,6 @@ int FrameTable::getLeastUsedFrameIndex() const {
 
     return victim;
 }
-
-
-
-
 
 void FrameTable::incrementUse(int frameIndex){
     ++totalInstructions;
