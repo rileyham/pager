@@ -19,13 +19,14 @@ int FIFO(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
         int frameIndex = -1;
         if (ft.getFrameCount() != 0 && ft.contains(p.getId(), page, frameIndex)) {
             hit = true;
+            ft.incrementUse(frameIndex);
         } 
         else {
             pageFaults++;
             if (ft.openSlot(frameIndex)) {
                 ft.insertEntry(p.getId(), page, frameIndex);
             } else {
-                int victimIndex = ft.getOldestEntryIndex();
+                int victimIndex = ft.getFifo();
                 ft.insertEntry(p.getId(), page, victimIndex);
             }
         }

@@ -4,6 +4,7 @@
 #define FRAMETABLE_H
 
 #include <vector>
+#include <queue>
 using namespace std;
 
 class FrameTable {
@@ -23,11 +24,13 @@ public:
     void setNewestEntryIndex(int index);
     void free(int processID);
     void updateFreeFrames(int PID);
+    int getFifo();
 
 private:
     int totalFrames;
     int frameCount;
     int totalInstructions;
+    queue<int> fifo;
 
     struct FrameTableEntry {
         int processId;     // ID of the process owning this frame

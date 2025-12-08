@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";  
                             if (!p.hasNextInstruction()){
-                                frameTable.updateFreeFrames(p.getId());
+                                frameTable.free(p.getId());
                             }
                         }
                     }
@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
                     Process &p = ready[i];
                     pageFaults = FIFO(p, frames, frameTable, p.getTotalInstructions());
                     pageResponse += "Process P_" + to_string(p.getId()) 
-                            + " had " + to_string(pageFaults) + " page faults.\n";  
+                            + " had " + to_string(pageFaults) + " page faults.\n";
                 }
             }
         }
@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";  
                             if (!p.hasNextInstruction()){
-                                frameTable.updateFreeFrames(p.getId());
+                                frameTable.free(p.getId());
                             }
                         }
                     }
@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
-                                frameTable.updateFreeFrames(p.getId());
+                                frameTable.free(p.getId());
                             }  
                         }
                     }
@@ -199,7 +199,7 @@ int main(int argc, char **argv) {
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
-                                frameTable.updateFreeFrames(p.getId());
+                                frameTable.free(p.getId());
                             }  
                         }
                     }
@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
-                                frameTable.updateFreeFrames(p.getId());
+                                frameTable.free(p.getId());
                             }  
                         }
                     }
@@ -267,7 +267,7 @@ int main(int argc, char **argv) {
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
-                                frameTable.updateFreeFrames(p.getId());
+                                frameTable.free(p.getId());
                             }  
                         }
                     }

@@ -6,6 +6,7 @@ FrameTable::FrameTable(int totalFrames){
     frameCount = 0;          // frames currently used
     totalInstructions = 0;
     frameTable.resize(totalFrames); // total number of frames
+
 }
 
 
@@ -43,6 +44,7 @@ bool FrameTable::insertEntry(int processId, int pageNumber, int frameIndex){
     if (frameCount < frameTable.size()){
         frameCount++;
     }
+    fifo.push(frameIndex);
 
     return true;
 }
@@ -68,7 +70,6 @@ int FrameTable::getOldestEntryIndex(){
             oldestIndex = frameTable[i].lastUsed;
         }
     }
-
 
     return oldestIndex;
 }
@@ -98,7 +99,7 @@ int FrameTable::getNewestEntryIndex(){
 int FrameTable::getMostUsedFrameIndex() const{
     int maxUses = -1;
     int frameIndex = -1;
-    bool foundFreeSlot;
+    bool foundFreeSlot = false;
 
     for(int i = 0; i < frameCount; ++i){
         if(frameTable[i].free && frameTable[i].uses >= maxUses){
@@ -106,6 +107,7 @@ int FrameTable::getMostUsedFrameIndex() const{
                 if(frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
                     maxUses = frameTable[i].lastUsed;
                     foundFreeSlot = true;
+                    frameIndex = i;
                 }
             }
         }
@@ -117,6 +119,7 @@ int FrameTable::getMostUsedFrameIndex() const{
             if(frameTable[i].uses == maxUses){
                 if(frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
                     maxUses = frameTable[i].lastUsed;
+                    frameIndex = i;
                 }
             }
         }
@@ -127,7 +130,7 @@ int FrameTable::getMostUsedFrameIndex() const{
 int FrameTable::getLeastUsedFrameIndex() const{
     int minUses = 10000000;
     int frameIndex = -1;
-    bool foundFreeSlot;
+    bool foundFreeSlot = false;
 
     for(int i = 0; i < frameCount; ++i){
         if(frameTable[i].free && frameTable[i].uses <= minUses){
@@ -135,6 +138,8 @@ int FrameTable::getLeastUsedFrameIndex() const{
                 if(frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
                     minUses = frameTable[i].lastUsed;
                     foundFreeSlot = true;
+                    frameIndex = i;
+
                 }
             }
         }
@@ -146,12 +151,14 @@ int FrameTable::getLeastUsedFrameIndex() const{
             if(frameTable[i].uses == minUses){
                 if(frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
                     minUses = frameTable[i].lastUsed;
+                    frameIndex = i;
                 }
             }
         }
     }
     return frameIndex;
 }
+
 
 void FrameTable::incrementUse(int frameIndex){
     ++totalInstructions;
@@ -168,10 +175,8 @@ void FrameTable::free(int processID){
     }
 }
 
-void FrameTable::updateFreeFrames(int PID){
-    for(int i = 0; i < frameCount; i++){
-        if(frameTable[i].processId == PID){
-            frameTable[i].free = 1;
-        }
-    }
+int FrameTable::getFifo(){
+    int index = fifo.front();
+    fifo.pop();
+    return index;
 }
