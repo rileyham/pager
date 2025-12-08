@@ -21,19 +21,20 @@ public:
     bool contains(int processId, int pageNumber, int &frameIndex);
     bool openSlot(int &frameIndex);
     void setNewestEntryIndex(int index);
+    void free(int processID);
 
 
 private:
     int totalFrames;
     int frameCount;
-    int oldestEntryIndex;
-    int newestEntryIndex;
+    int totalInstructions;
 
     struct FrameTableEntry {
         int processId;     // ID of the process owning this frame
         int pageNumber;
         int uses;
-        int 
+        int lastUsed;
+        bool free;
     };
 
     vector<FrameTableEntry> frameTable;

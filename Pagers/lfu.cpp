@@ -23,7 +23,6 @@ int LFU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
         if (ft.contains(p.getId(), currentPage, frameIndex)) {
             // Page is already in a frame, just increment usage
             ft.incrementUse(frameIndex);
-            ft.setNewestEntryIndex(frameIndex);
 
             if (debug) {
                 cout << "Page: " << currentPage << ", PID:" << p.getId() << " found in frame " << frameIndex << endl;
