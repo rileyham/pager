@@ -21,7 +21,6 @@ int MFU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
         int frameIndex = -1;
 
         if (ft.contains(p.getId(), currentPage, frameIndex)) {
-            // Page is already in a frame, just increment usage
             ft.incrementUse(frameIndex);
 
             if (debug) {
@@ -30,17 +29,14 @@ int MFU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
             continue;
         }
 
-        // Page not found → page fault
         pageFaults++;
 
         if (ft.openSlot(frameIndex)) {
-            // There is an empty frame
             ft.insertEntry(p.getId(), currentPage, frameIndex);
             if (debug) {
                 cout  << "Page: " << currentPage << ", PID:" << p.getId() << " loaded into empty frame " << frameIndex << endl;
             }
         } else {
-            // No empty frame → replace least recently used
             int victimIndex = ft.getMostUsedFrameIndex();
             if (debug) {
                 cout << "Page: " << currentPage << ", PID:" << p.getId() << " replacing page in frame " << victimIndex << endl;

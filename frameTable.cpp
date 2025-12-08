@@ -1,6 +1,7 @@
 // frameTable.cpp
 
 #include "frameTable.h"
+#include <iostream>
 
 FrameTable::FrameTable(int totalFrames){
     frameCount = 0;          // frames currently used
@@ -65,7 +66,7 @@ int FrameTable::getFrameCount() const{
 
 int FrameTable::getOldestEntryIndex(){
     int oldestIndex = 0;
-    int mostRecentInstruction = 10000000;
+    int mostRecentInstruction = 1000000;
     bool foundFreeSlot = false;
     for(int i = 0; i < frameCount; ++i){
         if(frameTable[i].free && frameTable[i].lastUsed < mostRecentInstruction){
@@ -87,90 +88,91 @@ int FrameTable::getOldestEntryIndex(){
 }
 
 int FrameTable::getNewestEntryIndex(){
-    int newestIndex = 0;
-    int mostRecentInstruction = -1;
+    int newestIndex = 1000000;
+    int mostRecenterInstruction = -1;
     bool foundFreeSlot = false;
     for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].free && frameTable[i].lastUsed > mostRecentInstruction){
+        if(frameTable[i].free && frameTable[i].lastUsed > mostRecenterInstruction){
             newestIndex = i;
-            mostRecentInstruction = frameTable[i].lastUsed;
+            mostRecenterInstruction = frameTable[i].lastUsed;
             foundFreeSlot = true;
         }
     }
     if(foundFreeSlot) return newestIndex;
 
     for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].lastUsed > mostRecentInstruction){
+        if(frameTable[i].lastUsed > mostRecenterInstruction){
             newestIndex = i;
-            mostRecentInstruction = frameTable[i].lastUsed;
+            mostRecenterInstruction = frameTable[i].lastUsed;
         }
     }
 
     return newestIndex;
 }
 
-int FrameTable::getMostUsedFrameIndex() const{
+int FrameTable::getMostUsedFrameIndex() const {
+    int victim = -1;
     int maxUses = -1;
-    int frameIndex = -1;
-    bool foundFreeSlot = false;
 
-    for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].free && frameTable[i].uses >= maxUses){
-            if(frameTable[i].uses == maxUses){
-                if(!frameIndex && frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
-                    maxUses = frameTable[i].lastUsed;
-                    foundFreeSlot = true;
-                    frameIndex = i;
-                }
+    // Check free frames first
+    for (int i = 0; i < frameCount; ++i) {
+        if (frameTable[i].free) {
+            if (frameTable[i].uses > maxUses ||
+               (frameTable[i].uses == maxUses && frameTable[i].lastUsed < frameTable[victim].lastUsed)) {
+                maxUses = frameTable[i].uses;
+                victim = i;
             }
         }
     }
-    if(foundFreeSlot) return frameIndex;
+    if (victim != -1) return victim;
 
-    for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].uses >= maxUses){
-            if(frameTable[i].uses == maxUses){
-                if(!frameIndex && frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
-                    maxUses = frameTable[i].lastUsed;
-                    frameIndex = i;
-                }
-            }
+    // Otherwise choose overall most used
+    maxUses = -1;
+    for (int i = 0; i < frameCount; ++i) {
+        if (frameTable[i].uses > maxUses ||
+           (frameTable[i].uses == maxUses && frameTable[i].lastUsed < frameTable[victim].lastUsed)) {
+            maxUses = frameTable[i].uses;
+            victim = i;
         }
     }
-    return frameIndex;
+
+    return victim;
 }
 
-int FrameTable::getLeastUsedFrameIndex() const{
+
+
+
+int FrameTable::getLeastUsedFrameIndex() const {
+    int victim = -1;
     int minUses = 10000000;
-    int frameIndex = -1;
-    bool foundFreeSlot = false;
 
-    for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].free && frameTable[i].uses <= minUses){
-            if(frameTable[i].uses == minUses){
-                if(!frameIndex && frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
-                    minUses = frameTable[i].lastUsed;
-                    foundFreeSlot = true;
-                    frameIndex = i;
-
-                }
+    // Check free frames first
+    for (int i = 0; i < frameCount; ++i) {
+        if (frameTable[i].free) {
+            if (frameTable[i].uses < minUses ||
+               (frameTable[i].uses == minUses && frameTable[i].lastUsed < frameTable[victim].lastUsed)) {
+                minUses = frameTable[i].uses;
+                victim = i;
             }
         }
     }
-    if(foundFreeSlot) return frameIndex;
+    if (victim != -1) return victim;
 
-    for(int i = 0; i < frameCount; ++i){
-        if(frameTable[i].uses <= minUses){
-            if(frameTable[i].uses == minUses){
-                if(!frameIndex && frameTable[i].lastUsed < frameTable[frameIndex].lastUsed){
-                    minUses = frameTable[i].lastUsed;
-                    frameIndex = i;
-                }
-            }
+    // Otherwise choose overall least used
+    minUses = 100000;
+    for (int i = 0; i < frameCount; ++i) {
+        if (frameTable[i].uses < minUses ||
+           (frameTable[i].uses == minUses && frameTable[i].lastUsed < frameTable[victim].lastUsed)) {
+            minUses = frameTable[i].uses;
+            victim = i;
         }
     }
-    return frameIndex;
+
+    return victim;
 }
+
+
+
 
 
 void FrameTable::incrementUse(int frameIndex){

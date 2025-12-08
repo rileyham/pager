@@ -209,8 +209,8 @@ int main(int argc, char **argv) {
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
                     pageFaults = MFU(p, frames, frameTable, p.getTotalInstructions());
-                    pageResponse += "Process P_" + to_string(p.getId()) 
-                            + " had " + to_string(pageFaults) + " page faults.\n";  
+                    pageResponse += "Process P_" + to_string(ready[i].getId()) 
+                            + " had " + to_string(pageFaults) + " page faults.\n";
                 }
             }
         }
@@ -244,7 +244,7 @@ int main(int argc, char **argv) {
                     Process &p = ready[i];
                     pageFaults = LFU(p, frames, frameTable, p.getTotalInstructions());
                     pageResponse += "Process P_" + to_string(p.getId()) 
-                            + " had " + to_string(pageFaults) + " page faults.\n";  
+                            + " had " + to_string(pageFaults) + " page faults.\n";
                 }
             }
         }
