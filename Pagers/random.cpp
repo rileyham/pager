@@ -28,9 +28,11 @@ int Random(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
 
         pageFaults++;
 
+        // Load page into an open slot if available
         if (ft.openSlot(frameIndex)) {
             ft.insertEntry(p.getId(), page, frameIndex);
         }
+        // No open slots, replace a random page
         else {
             int victim = rand() % frames;
 
