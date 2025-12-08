@@ -312,6 +312,12 @@ int commandDecider(int argc, char **argv) {
         } 
         else if (string(argv[i]) == "--framesize" && i + 1 < argc) {
             framesize = atoi(argv[++i]);
+            // Check if framesize is a power of two
+            //Citation to check if a number is a power of two: https://stackoverflow.com/questions/108318/how-can-i-test-whether-a-number-is-a-power-of-2
+            if ((framesize & (framesize - 1)) != 0 || framesize <= 0) {
+                cerr << "Error: Frame size must be a power of two." << endl;
+                exit(1);
+            }
         }
         else if (string(argv[i]) == "--schedType" && i + 1 < argc) {
             schedType = argv[++i];
@@ -393,6 +399,10 @@ bool readPageFile(const string &filename, const string &type, vector <Process > 
             stringstream ssMem(line);
             int pageNumber;
             ssMem >> memoryLocation;
+            if (memoryLocation / framesize >= pages) {
+                cerr << "Invalid memory location: " << memoryLocation << " for process P_" << id << endl;
+                return false;
+            }
             //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             if (sched){
                 ready[processIndex].insertNextInstruction(memoryLocation, memoryLocation / framesize);
@@ -406,7 +416,11 @@ bool readPageFile(const string &filename, const string &type, vector <Process > 
         // Catches if there is no new line character for the last line of the file
         if(file.eof() && !line.empty() && line[0] != 'P' ) {
             stringstream ssMem(line);
-            ssMem >> memoryLocation;   
+            ssMem >> memoryLocation;
+            if (memoryLocation / framesize >= pages) {
+                cerr << "Invalid memory location: " << memoryLocation << " for process P_" << id << endl;
+                return false;
+            }   
             //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             if (sched){
                 ready[processIndex].insertNextInstruction(memoryLocation, memoryLocation / framesize);
