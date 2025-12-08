@@ -40,7 +40,6 @@ int MRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
             int victimIndex = ft.getNewestEntryIndex();
             if (debug) {
                 cout << "Page: " << currentPage << ", PID:" << p.getId() << " replacing page in frame " << victimIndex << endl;
-
             }
             ft.insertEntry(p.getId(), currentPage, victimIndex);
         }

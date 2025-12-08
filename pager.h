@@ -23,15 +23,12 @@ using namespace std;
 // Takes in different commands and sets global variables to it
 int commandDecider (int argc, char **argv);
 
-// readSchedfile
 // Reads the input file and builds the initial process queue
 bool readSchedFile(const string &filename, const string &type, const bool preemptive, queue<Process> &ready);
 
-// readfile
 // Reads the input file and builds the initial process queue
 bool readPageFile(const string &filename, const string &type, vector<Process> &ready);
 
-// compareByArrival
 // Comparator function to sort processes by arrival time
 bool compareByArrival(const Process& a, const Process& b);
 
