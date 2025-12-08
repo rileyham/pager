@@ -21,6 +21,7 @@ public:
     bool contains(int processId, int pageNumber, int &frameIndex);
     bool openSlot(int &frameIndex);
     void setNewestEntryIndex(int index);
+    void updateFreeFrames(int PID);
 
 
 private:
@@ -33,7 +34,7 @@ private:
         int processId;     // ID of the process owning this frame
         int pageNumber;
         int uses;
-        int 
+        int lastUsed;
     };
 
     vector<FrameTableEntry> frameTable;

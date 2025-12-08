@@ -98,3 +98,11 @@ void FrameTable::incrementUse(int frameIndex){
 void FrameTable::setNewestEntryIndex(int index){
     newestEntryIndex = index;
 }
+
+void FrameTable::updateFreeFrames(int PID){
+    for(int i = 0; i < frameCount; i++){
+        if(frameTable[i].processId == PID){
+            frameTable[i].free = 1;
+        }
+    }
+}

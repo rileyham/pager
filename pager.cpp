@@ -96,6 +96,9 @@ int main(int argc, char **argv) {
                             pageFaults = FIFO(p, frames, frameTable, instructionsExecuted);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";  
+                            if (!p.hasNextInstruction()){
+                                frameTable.updateFreeFrames(p.getId());
+                            }
                         }
                     }
                 }
@@ -127,6 +130,9 @@ int main(int argc, char **argv) {
                             pageFaults = MRU(p, frames, frameTable, instructionsExecuted);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";  
+                            if (!p.hasNextInstruction()){
+                                frameTable.updateFreeFrames(p.getId());
+                            }
                         }
                     }
                 }
@@ -157,7 +163,10 @@ int main(int argc, char **argv) {
 
                             pageFaults = LRU(p, frames, frameTable, instructionsExecuted);
                             pageResponse += "Process P_" + to_string(p.getId()) 
-                                    + " had " + to_string(pageFaults) + " page faults.\n";  
+                                    + " had " + to_string(pageFaults) + " page faults.\n";
+                            if (!p.hasNextInstruction()){
+                                frameTable.updateFreeFrames(p.getId());
+                            }  
                         }
                     }
                 }
@@ -188,7 +197,10 @@ int main(int argc, char **argv) {
 
                             pageFaults = MFU(p, frames, frameTable, instructionsExecuted);
                             pageResponse += "Process P_" + to_string(p.getId()) 
-                                    + " had " + to_string(pageFaults) + " page faults.\n";  
+                                    + " had " + to_string(pageFaults) + " page faults.\n";
+                            if (!p.hasNextInstruction()){
+                                frameTable.updateFreeFrames(p.getId());
+                            }  
                         }
                     }
                 }
@@ -219,7 +231,10 @@ int main(int argc, char **argv) {
 
                             pageFaults = LFU(p, frames, frameTable, instructionsExecuted);
                             pageResponse += "Process P_" + to_string(p.getId()) 
-                                    + " had " + to_string(pageFaults) + " page faults.\n";  
+                                    + " had " + to_string(pageFaults) + " page faults.\n";
+                            if (!p.hasNextInstruction()){
+                                frameTable.updateFreeFrames(p.getId());
+                            }  
                         }
                     }
                 }
@@ -250,7 +265,10 @@ int main(int argc, char **argv) {
 
                             pageFaults = Random(p, frames, frameTable, instructionsExecuted);
                             pageResponse += "Process P_" + to_string(p.getId()) 
-                                    + " had " + to_string(pageFaults) + " page faults.\n";  
+                                    + " had " + to_string(pageFaults) + " page faults.\n";
+                            if (!p.hasNextInstruction()){
+                                frameTable.updateFreeFrames(p.getId());
+                            }  
                         }
                     }
                 }
