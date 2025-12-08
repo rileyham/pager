@@ -13,8 +13,9 @@
 
 using namespace std;
 
-// Takes in a series of memory locations and the number of frames simulates LRU paging
-// returns the number of page faults that occurred
+// Takes in a process, number of frames, frame table, and number of instructions to execute
+// Simulates LFU paging, LRU Tie-breaker
+// returns number of page faults
 int LFU(Process &p, int frames, FrameTable &ft, int instructionsToExecute);
 
 #endif
