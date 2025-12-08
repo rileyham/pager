@@ -33,6 +33,7 @@ private:
         int processId;     // ID of the process owning this frame
         int pageNumber;
         int uses;
+        int 
     };
 
     vector<FrameTableEntry> frameTable;

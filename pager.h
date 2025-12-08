@@ -6,15 +6,16 @@
 //
 
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <cmath>
+#include <algorithm>
 #include <queue>
 #include "process.h"
-#include "Pagers/PAGERS.h"
+#include "Pagers/pagers.h"
 #include "Schedulers/SCHEDULERS.h"
 using namespace std;
 
