@@ -33,7 +33,6 @@ int main(int argc, char **argv) {
              ready.push_back(p); // Also build the ready vector for paging
              tempQueue.pop();
         }
-        cout << "Total CPU Burst Time of all processes: " << totalCpuBurst << endl << endl;
         if (schedType == "FCFS") {
             schedResponse += "FCFS: \n";
             FCFS(schedReady, verbose , processSequence, schedResponse);
@@ -60,18 +59,19 @@ int main(int argc, char **argv) {
         }
         else {
             schedResponse = "Invalid scheduling type selected";
+            exit(1);
         }
     } 
     else {
         schedResponse = "Error reading file or file is empty";
     }
+   
+    printf("Pager Type: %s\nFrames: %d\nPages: %d\nFrame Size: %d\nInput File: %s\n", pageType.c_str(), frames, pages, framesize, pageFile.c_str());
 
     for (const auto& entry : processSequence) {
         cout << "Process P_" << entry.processID << " will run for " << entry.runTime << " units." << endl;
     }
     cout << endl;
-    
-    printf("Pager Type: %s\nFrames: %d\nPages: %d\nFrame Size: %d\nInput File: %s\n", pageType.c_str(), frames, pages, framesize, pageFile.c_str());
     
     if (readPageFile(pageFile, pageType, ready)){
         int pageFaults = 0;
