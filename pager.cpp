@@ -401,7 +401,7 @@ bool readPageFile(const string &filename, const string &type, vector <Process > 
             ssMem >> memoryLocation;
             if (memoryLocation / framesize >= pages) {
                 cerr << "Invalid memory location: " << memoryLocation << " for process P_" << id << endl;
-                return false;
+                exit(1);
             }
             //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             if (sched){
@@ -419,7 +419,7 @@ bool readPageFile(const string &filename, const string &type, vector <Process > 
             ssMem >> memoryLocation;
             if (memoryLocation / framesize >= pages) {
                 cerr << "Invalid memory location: " << memoryLocation << " for process P_" << id << endl;
-                return false;
+                exit(1);
             }   
             //printf("Read memory location %d for process %s\n", memoryLocation, idStr.c_str());
             if (sched){
