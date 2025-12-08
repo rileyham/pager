@@ -153,7 +153,6 @@ int FrameTable::getLeastUsedFrameIndex() const{
     return frameIndex;
 }
 
-
 void FrameTable::incrementUse(int frameIndex){
     ++totalInstructions;
     frameTable[frameIndex].lastUsed = totalInstructions;

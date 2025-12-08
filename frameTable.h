@@ -22,7 +22,7 @@ public:
     bool openSlot(int &frameIndex);
     void setNewestEntryIndex(int index);
     void free(int processID);
-
+    void updateFreeFrames(int PID);
 
 private:
     int totalFrames;
