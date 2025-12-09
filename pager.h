@@ -16,7 +16,7 @@
 #include <queue>
 #include "process.h"
 #include "Pagers/pagers.h"
-#include "Schedulers/SCHEDULERS.h"
+#include "Schedulers/schedulers.h"
 using namespace std;
 
 

@@ -10,7 +10,7 @@
 #include <iostream>
 using namespace std;
 
-int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
+int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute, string &response) {
     int pageFaults = 0;
     bool debug = false;
 
@@ -23,6 +23,7 @@ int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
         // check if page is already in a frame
         if (ft.contains(p.getId(), currentPage, frameIndex)) {
             ft.incrementUse(frameIndex);
+            response += "PID:" + to_string(p.getId()) + " Page Hit: Page " + to_string(currentPage) + " found in frame " + to_string(frameIndex) + "\n";
 
             if (debug) {
                 cout << "Page: " << currentPage << ", PID:" << p.getId() << " found in frame " << frameIndex << endl;
@@ -38,12 +39,15 @@ int LRU(Process &p, int frames, FrameTable &ft, int instructionsToExecute) {
             if (debug) {
                 cout  << "Page: " << currentPage << ", PID:" << p.getId() << " loaded into empty frame " << frameIndex << endl;
             }
+            response += "PID:" + to_string(p.getId()) + " Page Fault: Loaded page " + to_string(currentPage)  + " into frame " + to_string(frameIndex) + "\n";
+
         // no open slots, replace the least recently used page
         } else {
             int victimIndex = ft.getOldestEntryIndex();
             if (debug) {
                 cout << "Page: " << currentPage << ", PID:" << p.getId() << " replacing page in frame " << victimIndex << endl;
             }
+            response += "PID:" + to_string(p.getId()) + " Page Fault: Replacing page " + to_string(currentPage) + " to frame " + to_string(victimIndex) + "\n";
             ft.insertEntry(p.getId(), currentPage, victimIndex);
         }
     }

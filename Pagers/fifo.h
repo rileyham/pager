@@ -12,6 +12,6 @@
 
 // Simulate FIFO page replacement for a single process
 // Returns the number of page faults for that process
-int FIFO(Process &p, int frames, FrameTable &ft , int instructionsToExecute);
+int FIFO(Process &p, int frames, FrameTable &ft , int instructionsToExecute, string &response);
 
 #endif

@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
                                 << " should execute " << instructionsExecuted
                                 << " instructions out of " << p.getTotalInstructions() << endl;
 
-                            pageFaults = FIFO(p, frames, frameTable, instructionsExecuted);
+                            pageFaults = FIFO(p, frames, frameTable, instructionsExecuted, pageResponse);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";  
                             if (!p.hasNextInstruction()){
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
             else{
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
-                    pageFaults = FIFO(p, frames, frameTable, p.getTotalInstructions());
+                    pageFaults = FIFO(p, frames, frameTable, p.getTotalInstructions(), pageResponse);
                     pageResponse += "Process P_" + to_string(p.getId()) 
                             + " had " + to_string(pageFaults) + " page faults.\n";
                 }
@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
                                 << " should execute " << instructionsExecuted
                                 << " instructions out of " << p.getTotalInstructions() << endl;
 
-                            pageFaults = MRU(p, frames, frameTable, instructionsExecuted);
+                            pageFaults = MRU(p, frames, frameTable, instructionsExecuted, pageResponse);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";  
                             if (!p.hasNextInstruction()){
@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
             else{
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
-                    pageFaults = MRU(p, frames, frameTable, p.getTotalInstructions());
+                    pageFaults = MRU(p, frames, frameTable, p.getTotalInstructions(), pageResponse);
                     pageResponse += "Process P_" + to_string(p.getId()) 
                             + " had " + to_string(pageFaults) + " page faults.\n";  
                 }
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
                                 << " should execute " << instructionsExecuted
                                 << " instructions out of " << p.getTotalInstructions() << endl;
 
-                            pageFaults = LRU(p, frames, frameTable, instructionsExecuted);
+                            pageFaults = LRU(p, frames, frameTable, instructionsExecuted, pageResponse);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
@@ -174,7 +174,7 @@ int main(int argc, char **argv) {
             else{
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
-                    pageFaults = LRU(p, frames, frameTable, p.getTotalInstructions());
+                    pageFaults = LRU(p, frames, frameTable, p.getTotalInstructions(), pageResponse);
                     pageResponse += "Process P_" + to_string(p.getId()) 
                             + " had " + to_string(pageFaults) + " page faults.\n";  
                 }
@@ -195,7 +195,7 @@ int main(int argc, char **argv) {
                                 << " should execute " << instructionsExecuted
                                 << " instructions out of " << p.getTotalInstructions() << endl;
 
-                            pageFaults = MFU(p, frames, frameTable, instructionsExecuted);
+                            pageFaults = MFU(p, frames, frameTable, instructionsExecuted, pageResponse);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
@@ -208,13 +208,14 @@ int main(int argc, char **argv) {
             else{
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
-                    pageFaults = MFU(p, frames, frameTable, p.getTotalInstructions());
+                    pageFaults = MFU(p, frames, frameTable, p.getTotalInstructions(), pageResponse);
                     pageResponse += "Process P_" + to_string(ready[i].getId()) 
                             + " had " + to_string(pageFaults) + " page faults.\n";
                 }
             }
         }
         else if (pageType == "LFU") {
+        // no open s
             pageResponse += "LFU: \n";
             // call LFU
             if(sched){
@@ -229,7 +230,7 @@ int main(int argc, char **argv) {
                                 << " should execute " << instructionsExecuted
                                 << " instructions out of " << p.getTotalInstructions() << endl;
 
-                            pageFaults = LFU(p, frames, frameTable, instructionsExecuted);
+                            pageFaults = LFU(p, frames, frameTable, instructionsExecuted, pageResponse);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
@@ -242,7 +243,7 @@ int main(int argc, char **argv) {
             else{
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
-                    pageFaults = LFU(p, frames, frameTable, p.getTotalInstructions());
+                    pageFaults = LFU(p, frames, frameTable, p.getTotalInstructions(), pageResponse);
                     pageResponse += "Process P_" + to_string(p.getId()) 
                             + " had " + to_string(pageFaults) + " page faults.\n";
                 }
@@ -263,7 +264,7 @@ int main(int argc, char **argv) {
                                 << " should execute " << instructionsExecuted
                                 << " instructions out of " << p.getTotalInstructions() << endl;
 
-                            pageFaults = Random(p, frames, frameTable, instructionsExecuted);
+                            pageFaults = Random(p, frames, frameTable, instructionsExecuted, pageResponse);
                             pageResponse += "Process P_" + to_string(p.getId()) 
                                     + " had " + to_string(pageFaults) + " page faults.\n";
                             if (!p.hasNextInstruction()){
@@ -276,7 +277,7 @@ int main(int argc, char **argv) {
             else{
                 for (int i = 0; i < ready.size(); ++i){
                     Process &p = ready[i];
-                    pageFaults = Random(p, frames, frameTable, p.getTotalInstructions());
+                    pageFaults = Random(p, frames, frameTable, p.getTotalInstructions(), pageResponse);
                     pageResponse += "Process P_" + to_string(p.getId()) 
                             + " had " + to_string(pageFaults) + " page faults.\n";  
                 }

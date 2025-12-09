@@ -16,6 +16,6 @@ using namespace std;
 // Takes in a process, number of frames, frame table, and number of instructions to execute
 // Simulates MFU paging, LRU Tie-breaker
 // returns number of page faults
-int MFU(Process &p, int frames, FrameTable &ft, int instructionsToExecute);
+int MFU(Process &p, int frames, FrameTable &ft, int instructionsToExecute, string &response);
 
 #endif
